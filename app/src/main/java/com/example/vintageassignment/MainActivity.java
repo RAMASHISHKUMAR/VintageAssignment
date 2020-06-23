@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
     private void gameCondition() {
         if (changeColor) {
             view1.setBackgroundColor(Color.GRAY);
-
             view1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,16 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            view2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (count <= 0)
-                        System.out.print(count = 1);
-                    count--;
-                    getScoreTv.setText(String.valueOf(count));
-
-                }
-            });
         }
     }
 
