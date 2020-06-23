@@ -7,14 +7,18 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import static android.graphics.Color.GRAY;
+
 public class MainActivity extends AppCompatActivity {
 
-    private static View view1, view2, view3, view4 = null;
+    private static View view1, view2, view3, view4= null;
     final static int INTERVAL = 1000; // 1000=1sec
+    final static int INTERVAL_ = 1000;
+
     boolean whichColor = true;
     boolean changeColor = true;
     private TextView getScoreTv;
-    public int count = 0;
+    public int count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +29,15 @@ public class MainActivity extends AppCompatActivity {
         view2 = findViewById(R.id.View2);
         view3 = findViewById(R.id.View3);
         view4 = findViewById(R.id.View4);
+
         getScoreTv = findViewById(R.id.GetScoreTV);
 
         gameObjective();
+        gameObjective_();
         gameCondition();
-
     }
 
-
-    private void gameObjective() { // set initial colour
+    private void gameObjective() {
         view1.setBackgroundColor(Color.RED);
         new Thread(new Runnable() {
             public void run() {
@@ -50,41 +54,64 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
+
     private void updateColor() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (changeColor)
-                    view1.setBackgroundColor(Color.RED);
-                else
                     view1.setBackgroundColor(Color.GRAY);
+                else
+                    view1.setBackgroundColor(Color.RED);
 
-                if (changeColor) {
-                    view2.setBackgroundColor(Color.BLUE);
+                if (view2.getVisibility() == View.VISIBLE) {
+                    view2.setVisibility(View.INVISIBLE);
                 } else {
-                    view2.setBackgroundColor(Color.GRAY);
+                    view2.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+    }
 
-                if (changeColor) {
+
+    private void gameObjective_() {
+        view3.setBackgroundColor(Color.YELLOW);
+        new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(INTERVAL_);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    updateColor_();
+                    whichColor = !whichColor;
+                }
+            }
+        }).start();
+    }
+
+    private void updateColor_() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (whichColor)
+                    view3.setBackgroundColor(Color.GREEN);
+                else
                     view3.setBackgroundColor(Color.YELLOW);
-                } else {
-                    view3.setBackgroundColor(Color.GRAY);
-                }
 
-                if (changeColor) {
+                if (whichColor)
+                    view4.setBackgroundColor(Color.YELLOW);
+                else
                     view4.setBackgroundColor(Color.GREEN);
-                } else {
-                    view4.setBackgroundColor(Color.GRAY);
-               }
 
             }
-
         });
     }
 
     private void gameCondition() {
         if (changeColor) {
-            view1.setBackgroundColor(Color.GRAY);
+            view1.setBackgroundColor(GRAY);
             view1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -93,10 +120,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            view2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getScoreTv.setText(String.valueOf(count));
+                    count++;
+                }
+            });
         }
+
     }
-
-
-
 
 }
