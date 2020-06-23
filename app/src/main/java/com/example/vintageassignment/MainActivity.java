@@ -3,6 +3,7 @@ package com.example.vintageassignment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,8 @@ public class MainActivity extends AppCompatActivity {
     final static int INTERVAL = 1000; // 1000=1sec
     boolean whichColor = true;
     boolean changeColor = true;
+    private TextView getScoreTv;
+    public int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,16 +25,16 @@ public class MainActivity extends AppCompatActivity {
         view2 = findViewById(R.id.View2);
         view3 = findViewById(R.id.View3);
         view4 = findViewById(R.id.View4);
+        getScoreTv = findViewById(R.id.GetScoreTV);
 
         gameObjective();
+        gameCondition();
 
     }
 
+
     private void gameObjective() { // set initial colour
         view1.setBackgroundColor(Color.RED);
-//        view2.setBackgroundColor(Color.BLUE);
-//        view3.setBackgroundColor(Color.YELLOW);
-//        view4.setBackgroundColor(Color.GREEN);
         new Thread(new Runnable() {
             public void run() {
                 while (true) {
@@ -55,34 +58,56 @@ public class MainActivity extends AppCompatActivity {
                     view1.setBackgroundColor(Color.RED);
                 else
                     view1.setBackgroundColor(Color.GRAY);
-//                    if(view1.getVisibility() == View.VISIBLE){
-//                        view1.setVisibility(View.INVISIBLE);
-//                    }else{
-//                        view1.setVisibility(View.VISIBLE);
-//                    }
-//                if (changeColor) {
-//                    view2.setBackgroundColor(Color.BLUE);
-//                } else {
-//                    view2.setBackgroundColor(Color.GRAY);
-//                }
-//
-//                if (changeColor) {
-//                    view3.setBackgroundColor(Color.YELLOW);
-//                } else {
-//                    view3.setBackgroundColor(Color.GRAY);
-//                }
-//
-//                if (changeColor) {
-//                    view4.setBackgroundColor(Color.GREEN);
-//                } else {
-//                    view4.setBackgroundColor(Color.GRAY);
-//               }
 
+                if (changeColor) {
+                    view2.setBackgroundColor(Color.BLUE);
+                } else {
+                    view2.setBackgroundColor(Color.GRAY);
+                }
+
+                if (changeColor) {
+                    view3.setBackgroundColor(Color.YELLOW);
+                } else {
+                    view3.setBackgroundColor(Color.GRAY);
+                }
+
+                if (changeColor) {
+                    view4.setBackgroundColor(Color.GREEN);
+                } else {
+                    view4.setBackgroundColor(Color.GRAY);
+               }
 
             }
 
         });
     }
+
+    private void gameCondition() {
+        if (changeColor) {
+            view1.setBackgroundColor(Color.GRAY);
+
+            view1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getScoreTv.setText(String.valueOf(count));
+                    count++;
+                }
+            });
+
+            view2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (count <= 0)
+                        System.out.print(count = 1);
+                    count--;
+                    getScoreTv.setText(String.valueOf(count));
+
+                }
+            });
+        }
+    }
+
+
+
+
 }
-
-
